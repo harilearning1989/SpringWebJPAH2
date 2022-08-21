@@ -27,7 +27,7 @@ pipeline{
        stage('Gradle'){
           steps{
              withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]){
-                git 'https://github.com/harilearning1989/spring-rest-crops.git'
+                git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
                 sh 'java -version'
                 echo "Maven"
                 sh "${mvnCmd} -v"
