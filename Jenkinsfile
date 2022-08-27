@@ -8,12 +8,14 @@ pipeline{
 		//'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
 	//}
      environment {
+         echo "Maven"
 		 FOO = "foo"
 		 javaHome = tool name: 'JAVA_HOME', type: 'jdk'
 		 javaCMD = "${javaHome}/bin/java"
 
 		 mvnHome = tool name: 'MAVEN_HOME', type: 'maven'
 		 mvnCmd = "${mvnHome}/bin/mvn"
+		 sh "${mvnCmd} -v"
 
 		 gradleHome = tool name: 'GRADLE_HOME', type: 'gradle'
 		 grdlCmd = "${gradleHome}/bin/gradle"
