@@ -24,7 +24,7 @@ pipeline{
          dockerImage = ''
      }
     stages{
-       stage('Gradle'){
+       stage('Maven'){
           steps{
              withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]){
                 git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
