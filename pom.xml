@@ -137,7 +137,8 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.name}</finalName>
+		<!--<finalName>${project.name}</finalName>-->
+		<finalName>spring-web-jpa</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
