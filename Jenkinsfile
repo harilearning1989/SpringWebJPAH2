@@ -24,8 +24,8 @@ pipeline{
                 sh 'java -version'
                 echo "Maven"
                 sh "mvn -v"
-                sh "mvn clean build"
-                //sh "mvn clean install -DskipTests=true"
+                //sh "mvn clean build"
+                sh "mvn clean install -DskipTests=true"
             }
         }
     }
