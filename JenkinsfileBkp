@@ -6,6 +6,7 @@ pipeline{
 	//tools {
 		//echo "Tools"
 		//'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
+		//git credentialsId: 'GitHub', url: 'https://github.com/harilearning1989/SpringWebJPAH2.git'
 	//}
      environment {
          echo "Maven"
