@@ -12,6 +12,10 @@ pipeline{
 		 FOO = "foo"
 		 javaHome = tool name: 'JAVA_HOME', type: 'jdk'
 		 javaCMD = "${javaHome}/bin/java"
+
+         registry = "harilearning1989/spring-web-jpa"
+         registryCredential = 'DockerHub'
+         dockerImage = ''
      }
      stages {
         stage ('Build') {
@@ -27,6 +31,13 @@ pipeline{
                 sh "mvn -v"
                 //sh "mvn clean build"
                 sh "mvn clean install -DskipTests=true"
+            }
+        }
+        stage('Building our image') {
+            steps{
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
         stage('Docker') {
