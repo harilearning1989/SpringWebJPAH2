@@ -3,6 +3,7 @@ pipeline{
 	tools {
         gradle '7.5.1'
         maven '3.8.6'
+        docker 'latest'
     }
 	triggers{
         	pollSCM '*/5 * * * *'
