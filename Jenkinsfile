@@ -16,12 +16,16 @@ pipeline{
         stage ('Build') {
             steps {
                 sh 'mvn --version'
-                git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
+                //git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
+
+                git url: 'https://github.com/harilearning1989/SpringWebJPAH2.git', branch: 'main'
+                // Change file permisson
+                //sh "chmod +x -R ./jenkins"
                 sh 'java -version'
                 echo "Maven"
                 sh "mvn -v"
-                //sh "mvn clean build"
-                sh "mvn clean install -DskipTests=true"
+                sh "mvn clean build"
+                //sh "mvn clean install -DskipTests=true"
             }
         }
     }
