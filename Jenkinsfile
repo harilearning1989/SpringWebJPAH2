@@ -22,7 +22,7 @@ pipeline{
        stage('Gradle'){
           steps{
              withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]){
-                //git 'https://github.com/harilearning1989/spring-rest-crops.git'
+                git 'https://github.com/harilearning1989/spring-rest-crops.git'
                 sh 'java -version'
                 echo "Gradle"
                 sh "${grdlCmd} -v"
@@ -31,31 +31,14 @@ pipeline{
           }
        }
 
-       stage ('Build') {
-            steps {
-                sh 'mvn --version'
-                //git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
-
-                git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
-                //git 'https://github.com/harilearning1989/spring-rest-crops.git'
-                // Change file permisson
-                //sh "chmod +x -R ./jenkins"
-                sh 'java -version'
-                echo "Maven"
-                sh "mvn -v"
-                //sh "mvn clean build"
-                sh "mvn clean install -DskipTests=true"
-            }
-       }
-
        stage('Upload War To Nexus'){
             steps{
                 nexusArtifactUploader artifacts: [
                     [
-                        artifactId: 'SpringWebJPAH2',
+                        artifactId: 'spring-rest-crops',
                         classifier: '',
-                        file: 'target/spring-web-jpa.war',
-                        type: 'war']
+                        file: 'build/libs/spring-rest-crops.jar',
+                        type: 'jar']
                     ],
                     credentialsId: 'Nexus3',
                     groupId: 'com.web.demo',
