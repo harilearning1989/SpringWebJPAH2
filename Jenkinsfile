@@ -36,7 +36,8 @@ pipeline{
                 sh 'mvn --version'
                 //git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
 
-                git url: 'https://github.com/harilearning1989/SpringWebJPAH2.git'
+                git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
+                //git 'https://github.com/harilearning1989/spring-rest-crops.git'
                 // Change file permisson
                 //sh "chmod +x -R ./jenkins"
                 sh 'java -version'
