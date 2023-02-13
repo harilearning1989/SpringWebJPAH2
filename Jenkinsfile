@@ -1,23 +1,37 @@
 pipeline{
 	agent any
-	tools {
-        gradle '7.5.1'
-        maven '3.8.6'
-    }
 	triggers{
         	pollSCM '*/5 * * * *'
     	}
+	//tools {
+		//echo "Tools"
+		//'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
+	//}
      environment {
 		 FOO = "foo"
 		 javaHome = tool name: 'JAVA_HOME', type: 'jdk'
 		 javaCMD = "${javaHome}/bin/java"
 
-         registry = "harilearning1989/spring-web-jpa"
-         registryCredential = 'DockerHub'
-         dockerImage = ''
+		 mvnHome = tool name: 'MAVEN_HOME', type: 'maven'
+		 mvnCmd = "${mvnHome}/bin/mvn"
+
+		 gradleHome = tool name: 'GRADLE_HOME', type: 'gradle'
+		 grdlCmd = "${gradleHome}/bin/gradle"
      }
-     stages {
-        stage ('Build') {
+    stages{
+       stage('Gradle'){
+          steps{
+             withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]){
+                //git 'https://github.com/harilearning1989/spring-rest-crops.git'
+                sh 'java -version'
+                echo "Gradle"
+                sh "${grdlCmd} -v"
+                sh "${grdlCmd} clean build"
+             }
+          }
+       }
+
+       stage ('Build') {
             steps {
                 sh 'mvn --version'
                 //git 'https://github.com/harilearning1989/SpringWebJPAH2.git'
@@ -31,19 +45,77 @@ pipeline{
                 //sh "mvn clean build"
                 sh "mvn clean install -DskipTests=true"
             }
-        }
-        stage('Building our image') {
+       }
+
+       stage('Upload War To Nexus'){
             steps{
-                script {
-                    sh "docker -v"
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'SpringWebJPAH2',
+                        classifier: '',
+                        file: 'target/spring-web-jpa.war',
+                        type: 'war']
+                    ],
+                    credentialsId: 'Nexus3',
+                    groupId: 'com.web.demo',
+                    nexusUrl: 'localhost:8081/',
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'http://localhost:8081/repository/hari-release',
+                    version: '0.0.1-SNAPSHOT'
             }
-        }
-        stage('Docker') {
-        	steps {
-        		sh "docker version" // DOCKER_CERT_PATH is automatically picked up by the Docker client
-        	}
-        }
+       }
+
+       stage('compile')
+       {
+          steps
+          {
+             echo 'compiling the application'
+          }
+       }
+       stage('build')
+       {
+          steps
+          {
+             echo 'building the application'
+          }
+       }
+       stage('test')
+       {
+          steps
+          {
+             echo 'testing the application'
+          }
+       }
+       stage('deploy')
+       {
+          steps
+          {
+             echo 'deploying the application'
+          }
+       }
     }
+	post
+	{
+	    always {
+	        echo 'this will run success'
+            junit skipPublishingChecks: true, testResults: '**/cpputest_*.xml'
+        }
+		success
+		{
+			echo 'this will run success'
+		}
+		failure
+		{
+			echo 'this will run failure'
+		}
+		unstable
+		{
+			echo 'this will run unstable'
+		}
+		changed
+		{
+			echo 'this will run changed'
+		}
+	}
 }
