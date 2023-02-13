@@ -25,8 +25,11 @@ pipeline{
                 git url: 'https://github.com/harilearning1989/SpringWebJPAH2.git', branch: 'main'
                 sh 'java -version'
                 echo "Gradle"
-                sh "${grdlCmd} -v"
-                sh "${grdlCmd} clean build"
+                sh 'java -version'
+                echo "Maven"
+                sh "mvn -v"
+                //sh "mvn clean build"
+                sh "mvn clean install -DskipTests=true"
              }
           }
        }
