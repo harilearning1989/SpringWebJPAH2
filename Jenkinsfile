@@ -22,7 +22,7 @@ pipeline{
        stage('Gradle'){
           steps{
              withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]){
-                git url: 'https://github.com/harilearning1989/SpringWebJPAH2.git', branch: 'main'
+                git credentialsId: 'GitHub', url: 'https://github.com/harilearning1989/SpringWebJPAH2.git'
                 sh 'java -version'
                 echo "Gradle"
                 sh 'java -version'
